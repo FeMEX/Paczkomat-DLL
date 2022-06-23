@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace SZkolenie_3
+{
+    public partial class Form3 : Form
+    {
+        static string connectionString = @"Data Source=DESKTOP-J00I7EP\SQLEXPRESS;Initial Catalog=DLL;Integrated Security=True";
+        SqlConnection connection = new SqlConnection(connectionString);
+        public Form3()
+        {
+            InitializeComponent();
+            BindData();
+        }
+        private void Form3_Load(object sender, EventArgs e)
+        {
+            BindData();
+        }
+        void BindData()
+        {
+            SqlCommand command = new SqlCommand("select * from Przesyłka", connection);
+            SqlDataAdapter sd = new SqlDataAdapter(command);
+            DataTable dt = new DataTable();
+            sd.Fill(dt);
+            dataGridView1.DataSource = dt;
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            connection.Open();
+            SqlCommand command = new SqlCommand("Update Przesyłka set NazwaPrzesyłki= '" + textBox1.Text + "', " +
+                "Rozmiar_w_długości='" + int.Parse(textBox4.Text) + "' ," +
+                "Rozmiar_w_szerokości='" + int.Parse(textBox3.Text) + "' , " +
+                "Czas_podania=getdate() " +
+                "where NIPprzesyłki ='" + textBox2.Text + "' ", connection);
+            command.ExecuteNonQuery();
+            MessageBox.Show("Succesfully update");
+            connection.Close();
+            BindData();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            connection.Open();
+            if (textBox1.Text != "")
+            {
+                SqlCommand command = new SqlCommand("DELETE from Przesyłka where NIPprzesyłki ='" + textBox2.Text + "'", connection);
+                command.ExecuteNonQuery();
+                MessageBox.Show("Succesfully Deleted");
+            }
+            else
+            {
+                MessageBox.Show("wpisz NIpPrzesyłki");
+            }
+            connection.Close();
+            BindData();
+        }
+    }
+}
