@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace SZkolenie_3
+{
+    public partial class Form2 : Form
+    {
+        mirrow.WebService1 webService = new mirrow.WebService1();
+        Form3 Admin = new Form3();
+        public Form2()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string log = textBox1.Text;
+            int hasło = Convert.ToInt32(textBox2.Text);
+            if (hasło == webService.Hasło() && log == webService.Login())
+            {
+                Admin.Show();
+            }
+            else
+            {
+                MessageBox.Show("Niepoprawny login lub hasło");
+            }
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
